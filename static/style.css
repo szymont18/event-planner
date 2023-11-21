@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Open+Sans:wght@400;700&display=swap');
-
+:root {
+    --my-bg: #E27D60;
+    --lines: #4184b3;
+    --lines-hover: #0c496c;
+}
 * {
   box-sizing: border-box;
 }

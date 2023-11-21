@@ -1,7 +1,7 @@
 #login-div{
-    background-color: #E27D60;
+    background-color: var(--my-bg);
     width: 25%;
-    height: 45%;
+    height: auto;
     margin: 0 auto;
     position: absolute;
     top: 30%;
@@ -17,7 +17,7 @@
     margin: 1.5rem auto;
     padding-bottom: 1.5rem;
     font-size: 2rem;
-    border-bottom: 0.1rem dashed #4184b3;
+    border-bottom: 0.1rem dashed var(--lines);
 }
 
 .form-control{
@@ -41,7 +41,7 @@
 }
 
 #login-div button {
-    background-color: #4184b3;
+    background-color: var(--lines);
     color: white;
     padding: 14px 20px;
     border: none;
@@ -55,14 +55,16 @@
 #login-div button:hover {
   opacity: 0.8;
 }
-
+#a-div{
+    margin: 0.5rem 0 0.5rem 0;
+}
 #login-div a{
     text-decoration: none;
-    color: #4184b3;
+    color: var(--lines);
     cursor: pointer;
 }
 
 #login-div a:hover{
-    color: #0c496c;
+    color: var(--lines-hover);
 }
 
