@@ -1,11 +1,13 @@
 from django.shortcuts import render
-from django.contrib.auth.views import LoginView, FormView
-from django.urls import reverse
-from .forms import MyAuthenticationForm, RegisterForm
+from django.contrib.auth.views import LoginView, FormView, PasswordResetView
+from django.urls import reverse, reverse_lazy
+from .forms import MyAuthenticationForm, RegisterForm, ResetPasswordForm
 from django.http import HttpResponseRedirect
+from django.contrib.messages.views import SuccessMessageMixin
 
 
 # Create your views here.
+
 
 class LoginTemplate(LoginView):
     template_name = 'login/login.html'
@@ -23,12 +25,19 @@ class LoginTemplate(LoginView):
 class RegisterView(FormView):
     template_name = 'login/registration.html'
     form_class = RegisterForm
-    success_url = 'success/'
+    success_url = reverse_lazy("home-page")
 
     def form_valid(self, form):
-        print("Success")
         form.save()
         return super().form_valid(form)
+
+
+class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
+    template_name = 'login/reset_password.html'
+    email_template_name = 'login/reset_email.html'
+    subject_template_name = 'login/reset_email_subject'
+    success_url = reverse_lazy("password-reset-done")
+    form_class = ResetPasswordForm
 
 
 def success(request):
