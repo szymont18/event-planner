@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordResetForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordResetForm, SetPasswordForm
 from django import forms
 from .models import WebsiteUser
 from django.core.validators import validate_email
@@ -57,9 +57,8 @@ class RegisterForm(UserCreationForm):
                                                       'type': 'text',
                                                       'placeholder': 'Enter Your last name'})
 
-    def is_valid(self):
+    def is_valid(self):  # TODO: Check if it is necessary
         return super().is_valid()
-        # TODO: ERROR WHEN USER WITH THIS ID ALREADY EXISTS
 
 
 class ResetPasswordForm(PasswordResetForm):
@@ -71,8 +70,18 @@ class ResetPasswordForm(PasswordResetForm):
     def clean_email(self):
         email = self.cleaned_data['email']
 
-        # if not WebsiteUser.objects.filter(email=email).exists():
-        #     print("!!!!!!!!!!!!!!!!!!!!!!")
-        #     raise forms.ValidationError("This email address is not associated with any user account.")
-        print(f'email = {email}')
         return email
+
+
+class ChangePasswordForm(SetPasswordForm):
+    class Meta:
+        model = WebsiteUser
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['new_password1'].widget.attrs.update({'class': 'form-control',
+                                                          'type': 'password',
+                                                          'placeholder': 'Enter new password'})
+        self.fields['new_password2'].widget.attrs.update({'class': 'form-control',
+                                                          'type': 'password',
+                                                          'placeholder': 'Repeat new password'})

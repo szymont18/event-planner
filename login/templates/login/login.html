@@ -13,9 +13,15 @@
         <form  method="POST" action="{% url 'login_template' %}">
             {% csrf_token %}
             <h1>Log in</h1>
+                {% if errors %}
+                        <div class="login-error-alert">
+                            {{ errors }}
+                        </div>
+                {% endif %}
             {% for form_field in authentication_form %}
-                <div class="form-control{% if form_field.errors %}-invalid{% endif %}">
+                <div class="form-control{% if errors %}-invalid{% endif %}">
                     {{ form_field }}
+
                 </div>
             {% endfor %}
             <button type="submit">Log in</button>

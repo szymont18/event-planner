@@ -3,6 +3,9 @@
     --my-bg: #E27D60;
     --lines: #4184b3;
     --lines-hover: #0c496c;
+    --error-line: #d50a0a;
+    --error-bg:#eeacac;
+    --error-font-color:red;
 }
 * {
   box-sizing: border-box;
