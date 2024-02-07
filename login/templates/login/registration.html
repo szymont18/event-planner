@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block content %}
-	<div id="login-div">
+	<div id="login-div" style="top: 300px">
         <form  method="POST" action="{% url 'sign-up' %}">
             {% csrf_token %}
             <h1>Sign up</h1>

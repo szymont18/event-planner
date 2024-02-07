@@ -1,0 +1,12 @@
+{% load static %}
+
+<ul>
+    {% for friend in friends %}
+        <a href="TODO">
+            <li>
+                <img src="{{friend.profile_picture.url}}" alt="{{base_picture.url}}">
+                <p1>friend.username</p1>
+            </li>
+        </a>
+    {% endfor %}
+</ul>

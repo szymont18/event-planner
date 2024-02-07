@@ -4,7 +4,6 @@ from django.contrib.auth.views import PasswordResetDoneView, PasswordResetConfir
 
 urlpatterns = [
     path("login", views.LoginTemplate.as_view(), name="login_template"),
-    path("home", views.success, name="home-page"),
     path("sign-up", views.RegisterView.as_view(), name='sign-up'),
     path("password-reset/", views.ResetPasswordView.as_view(), name='password-reset'),
     path('password-reset-confirm/<uidb64>/<token>/',

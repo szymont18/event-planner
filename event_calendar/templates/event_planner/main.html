@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block title %}
+    Calendar
+{% endblock %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static "event_calendar/main.css" %}">
+{% endblock %}
+
+{% block content %}
+    {% include 'event_planner/navbar.html' %}
+
+    <div id="content">
+        <div id="friends">
+            {% include 'event_planner/friends.html' %}
+        </div>
+
+        <div id="calendar">
+            <h1>Calendar</h1>
+        </div>
+    </div>
+{% endblock %}

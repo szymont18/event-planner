@@ -11,7 +11,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 class LoginTemplate(LoginView):
     template_name = 'login/login.html'
-    # redirect_authenticated_user = True
+    redirect_authenticated_user = True
     authentication_form = MyAuthenticationForm
 
     extra_context = {
@@ -19,13 +19,13 @@ class LoginTemplate(LoginView):
     }
 
     def get_success_url(self):
-        return reverse("home-page")
+        return reverse_lazy("event_calendar:home-page")
 
 
 class RegisterView(FormView):
     template_name = 'login/registration.html'
     form_class = RegisterForm
-    success_url = reverse_lazy("home-page")
+    success_url = reverse_lazy("event_calendar:home-page")
 
     def form_valid(self, form):
         form.save()
@@ -39,10 +39,3 @@ class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
     success_url = reverse_lazy("password-reset-done")
     form_class = ResetPasswordForm
 
-
-def success(request):
-    return render(request, 'login/success_tmp.html')
-
-
-def failure(request):
-    return render(request, 'login/failure_tmp.html')
