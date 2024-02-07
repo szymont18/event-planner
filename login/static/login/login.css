@@ -20,17 +20,21 @@
     border-bottom: 0.1rem dashed var(--lines);
 }
 
-.form-control{
+.form-control,
+.form-control-invalid{
   margin-bottom: 1rem;
 }
 
-.form-control label{
+.form-control label,
+.form-control-invalid label{
     margin-bottom: 0.5rem;
     display: block;
 }
 
 .form-control input,
-.form-control textarea{
+.form-control textarea,
+.form-control-invalid input,
+.form-control-invalid textarea{
   display: block;
   width: 60%;
   font: inherit;
@@ -39,6 +43,16 @@
   border-radius: 6px;
   border: 1px solid #ccc;
 }
+
+
+
+.form-control-invalid input,
+.form-control-invalid textarea{
+    border: 1px solid var(--error-line);
+    color: var(--error-font-color);
+    background-color: var(--error-bg);
+}
+
 
 #login-div button {
     background-color: var(--lines);
@@ -50,6 +64,25 @@
     margin: 0 0 1rem;
 
 }
+
+.error-alert,
+.login-error-alert{
+    font-size: 0.8rem;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+.error-alert li,
+.login-error-alert li{
+    list-style: none;
+}
+
+.login-error-alert{
+    margin-bottom: 0.9rem;
+}
+
+
 
 /* Add a hover effect for buttons */
 #login-div button:hover {
@@ -67,4 +100,5 @@
 #login-div a:hover{
     color: var(--lines-hover);
 }
+
 
