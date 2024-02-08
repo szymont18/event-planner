@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+	Event Planner - Friends
+{% endblock %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static "home/main.css" %}">
+{% endblock %}
+
+{% block content %}
+    {% include 'home/widgets/navbar_widget.html' %}
+    <div id="content">
+        <div id="user_friends">
+            <h1>Your Friends</h1>
+            {% include 'home/widgets/friends_widget.html' %}
+        </div>
+
+        <div id="maybe_friends">
+            <h1>Meet new People</h1>
+            {% include 'home/widgets/maybe_friends_widget.html' %}
+        </div>
+
+    </div>
+{% endblock %}

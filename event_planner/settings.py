@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'login',
-    'event_calendar',
+    'home',
     'bootstrap5',
 ]
 

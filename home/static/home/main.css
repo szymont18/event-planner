@@ -18,3 +18,19 @@
     flex-grow: 3;
     background-color: yellow;
 }
+
+#user_friends{
+    order: 1;
+    flex-grow: 1;
+}
+
+#maybe_friends{
+    order:1;
+    flex-grow: 1;
+}
+
+#friend_list{
+    text-decoration: none;
+    padding: 5%;
+    background-color: var(--my-bg);
+}

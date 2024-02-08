@@ -12,7 +12,7 @@
 
 {% block content %}
 	<div id="login-div" style="top: 300px">
-        <form  method="POST" action="{% url 'sign-up' %}">
+        <form  method="POST" action="{% url 'login:sign-up' %}">
             {% csrf_token %}
             <h1>Sign up</h1>
             {% for form_field in form %}
@@ -23,12 +23,11 @@
                             {{ form_field.errors }}
                         </div>
                     {% endif %}
-
                 </div>
             {% endfor %}
             <button type="submit">Sign up</button>
             <div id="a-div">
-                <a href="{% url 'login_template' %}">Already have account? Log in</a>
+                <a href="{% url 'login:login_template' %}">Already have account? Log in</a>
             </div>
         </form>
     </div>

@@ -6,15 +6,15 @@
 {% endblock %}
 
 {% block css_files %}
-    <link rel="stylesheet" href="{% static "event_calendar/main.css" %}">
+    <link rel="stylesheet" href="{% static "home/main.css" %}">
 {% endblock %}
 
 {% block content %}
-    {% include 'event_planner/navbar.html' %}
+    {% include 'home/widgets/navbar_widget.html' %}
 
     <div id="content">
         <div id="friends">
-            {% include 'event_planner/friends.html' %}
+            {% include 'home/widgets/friends_widget.html' %}
         </div>
 
         <div id="calendar">

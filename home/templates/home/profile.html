@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    Event Planner - Profile
+{% endblock %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static "login/login.css" %}">
+    <link rel="stylesheet" href="{% static "login/registration.css" %}">
+    link rel="stylesheet" href="{% static "home/profile.css" %}">
+{% endblock %}
+
+{% block content %}
+    {% include 'home/widgets/navbar_widget.html' %}
+
+    <div id="login-div" style="margin-top: 200px">
+
+        {% if picture.url is not None %}
+            <img src="{{picture.url}}">
+            <h1>Loaded</h1>
+        {% else %}
+            <h1>Tu cos będzie</h1>
+        {% endif %}
+
+        <form method="POST" action="{% url 'home:profile' %}">{% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Change information</button>
+            <a href="{% url 'login:password-reset' %}">Reset Password</a>
+        </form>
+
+    </div>
+
+{% endblock %}

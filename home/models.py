@@ -5,7 +5,7 @@ from login.models import WebsiteUser
 
 
 class Event(models.Model):
-    organizer = models.ForeignKey(WebsiteUser, null=True, on_delete=models.SET_NULL)
+    organizer = models.ForeignKey(WebsiteUser, null=True, on_delete=models.CASCADE)
     place = models.CharField(max_length=256)
 
     guests = models.ManyToManyField(WebsiteUser, related_name="parties", null=True)

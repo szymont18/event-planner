@@ -2,6 +2,8 @@ from django.urls import path
 from . import views
 from django.contrib.auth.views import PasswordResetDoneView
 
+app_name = 'login'
+
 urlpatterns = [
     path("login", views.LoginTemplate.as_view(), name="login_template"),
     path("sign-up", views.RegisterView.as_view(), name='sign-up'),

@@ -10,3 +10,6 @@ class WebsiteUser(AbstractUser):
 
     groups = models.ManyToManyField(Group, related_name='website_users', blank=True)
     user_permissions = models.ManyToManyField(Permission, related_name='website_users', blank=True)
+
+    friends = models.ManyToManyField('self', blank=True)
+    waiting_friends = models.ManyToManyField('self', blank=True)

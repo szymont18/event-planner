@@ -21,6 +21,6 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/', include("login.urls")),
-    path('calendar/', include('event_calendar.urls', namespace='event_calendar'))
+    path('accounts/', include("login.urls", namespace='login')),
+    path('calendar/', include('home.urls', namespace='home'))
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
