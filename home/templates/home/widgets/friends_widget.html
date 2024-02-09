@@ -1,16 +1,26 @@
 {% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
 
 <ul class="friend_list">
+    <h1>Your Friends</h1>
     {% for friend in friends %}
-        <a href="TODO">
-            <li>
-                {% if friend.profile_picture.url is not None %}
-                    <img src="{{friend.profile_picture.url}}">
-                {% else %}
-                    <h1>Tu cos będzie</h1>
-                {% endif %}
-                <p1>friend.username</p1>
-            </li>
-        </a>
+        <div class="friend_wrapper">
+            <a href="">
+                <li>
+                    <img src="{{ friend.profile_picture.url}}">
+                    <p>{{ friend.username }}</p>
+                    <form method="POST" action="{% url 'home:friends_modification' friend.pk %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="type" value="unfollow">
+                        <button  value="follow"  type="submit" class="btn btn-danger" style=" position: absolute; right: 10%; top: 30%">
+                            Unfollow</button>
+                    </form>
+                </li>
+
+            </a>
+
+        </div>
     {% endfor %}
 </ul>

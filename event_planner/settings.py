@@ -134,3 +134,4 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # EMAIL_USE_SSL = False
 
 AUTH_USER_MODEL = 'login.WebsiteUser'
+LOGIN_URL = 'accounts/login'

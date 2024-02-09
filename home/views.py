@@ -1,14 +1,14 @@
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect
 from django.contrib.auth import logout
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.core.exceptions import PermissionDenied
 import random
 from django.views.generic.edit import FormView
 from .forms import *
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -21,9 +21,11 @@ def authenticated(request):
 
 def proposed_friends(friends):
     distant_friend = []
-    random.shuffle(friends)
+    rnd_shuffle = [i for i in range(len(friends))]
+    random.shuffle(rnd_shuffle)
 
-    for friend in friends[:10]:
+    for friend_ind in rnd_shuffle:
+        friend = friends[friend_ind]
         other_friends = friend.friends.all()
         distant_friend.append(random.choice(other_friends))
 
@@ -34,6 +36,7 @@ def proposed_friends(friends):
     return distant_friend
 
 
+@login_required
 def main_page(request):
     return render(request, 'home/main.html')
 
@@ -43,8 +46,7 @@ def logout_user(request):
     return redirect('login:login_template')
 
 
-class FriendsView(View):
-
+class FriendsView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         try:
             user = authenticated(request)
@@ -61,7 +63,23 @@ class FriendsView(View):
         return render(request, "home/friends.html", extra_content)
 
     def post(self, request, *args, **kwargs):
-        pass  # TODO: Meet friends. Send them invitation to friends
+        action_type = request.POST.get('type')
+        user = authenticated(request)
+        friend = WebsiteUser.objects.get(pk=kwargs['pk'])
+        if action_type == 'unfollow':
+            self.unfollow(user, friend)
+
+        elif action_type == 'follow':
+            self.follow(user, friend)
+
+        return HttpResponseRedirect(reverse('home:friends'))
+
+    def follow(self, user: WebsiteUser, friend: WebsiteUser):
+        user.friends.add(friend)
+
+
+    def unfollow(self, user: WebsiteUser, friend: WebsiteUser):
+        user.friends.remove(friend)
 
 
 class ProfileView(LoginRequiredMixin, FormView):
@@ -71,7 +89,7 @@ class ProfileView(LoginRequiredMixin, FormView):
 
     def form_valid(self, form):
         form.save()
-        profile_picture = form.cleaned_data.get('profile_picture')
+        profile_picture = self.request.FILES['picture']
         if profile_picture:
             self.request.user.profile_picture = profile_picture
             self.request.user.save()

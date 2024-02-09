@@ -1,0 +1,25 @@
+#profile_form input{
+    text-align: center;
+}
+
+#profile_form img{
+    width:250px;
+    height:250px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    margin-left: 15%;
+}
+
+#profile_form img:hover{
+    background-color: rgba(0,0,0,.5);
+    z-index: 10000;
+    color: #fff;
+    transition: all .3s ease;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.empty{
+    display: None;
+}

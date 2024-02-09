@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractUser, Group, Permission
 # Create your models here.
 
 class WebsiteUser(AbstractUser):
-    profile_picture = models.ImageField(upload_to='avatars', null=True, blank=True)
+    profile_picture = models.ImageField(default="default.jpg", upload_to='avatars', null=False)
     birthday = models.DateField(null=True, blank=True)
 
     groups = models.ManyToManyField(Group, related_name='website_users', blank=True)

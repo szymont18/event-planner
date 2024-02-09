@@ -6,6 +6,7 @@
     --error-line: #d50a0a;
     --error-bg:#eeacac;
     --error-font-color:red;
+    --navbar-color: #F0FFFF
 }
 * {
   box-sizing: border-box;
@@ -17,7 +18,10 @@ html {
 }
 
 body {
-  margin: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 h1,
