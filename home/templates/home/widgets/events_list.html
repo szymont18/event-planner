@@ -1,0 +1,25 @@
+{% load static %}
+
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+
+<h1>Your Events</h1>
+
+{% for event in events %}
+    <div class="event-wrapper">
+        <a href="">
+            <div class="text">
+                <h2>{{ event.title }}</h2>
+                <p>{{ event.place }}</p>
+                <p>{{ event.date }}</p>
+            </div>
+            <div class="image">
+                <img src="{{ event.event_picture.url }}">
+            </div>
+        </a>
+    </div>
+{% endfor %}
+
+

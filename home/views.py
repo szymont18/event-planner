@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.urls import reverse_lazy, reverse
+from django.utils import timezone
 from django.views import View
 from django.core.exceptions import PermissionDenied
 import random
@@ -77,7 +78,6 @@ class FriendsView(LoginRequiredMixin, View):
     def follow(self, user: WebsiteUser, friend: WebsiteUser):
         user.friends.add(friend)
 
-
     def unfollow(self, user: WebsiteUser, friend: WebsiteUser):
         user.friends.remove(friend)
 
@@ -112,3 +112,29 @@ class ProfileView(LoginRequiredMixin, FormView):
         context['picture'] = user.profile_picture
 
         return context
+
+
+class EventView(LoginRequiredMixin, FormView):
+    template_name = 'home/events.html'
+    form_class = EventForm
+    success_url = reverse_lazy('home:events')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        user = authenticated(self.request)
+
+        events = user.events.all()
+        events = events.filter(date__gt=timezone.now()).order_by('date')
+
+        context['events'] = events
+        return context
+
+    def form_valid(self, form):
+        event = form.save(commit=False)
+        event.organizer = self.request.user
+        event.save()
+
+        return super().form_valid(form)
+
+

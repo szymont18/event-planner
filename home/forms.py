@@ -1,8 +1,10 @@
+import django.forms as forms
 from django.forms import ModelForm
 from login.models import WebsiteUser
+from home.models import Event
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
-
+from django.forms.widgets import DateInput
 
 def is_valid_email(email):
     try:
@@ -37,4 +39,13 @@ class ProfileForm(ModelForm):
                                                      'placeholder': 'Enter Your Email'})
 
 
+class EventForm(ModelForm):
+    class Meta:
+        model = Event
+        fields = ['event_picture', 'title', 'place', 'date']
+        widgets = {
+            'date': forms.DateInput(
+                format=('%Y-%m-%d'),
+                attrs={'type': 'date'}),
+        }
 

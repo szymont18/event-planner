@@ -9,4 +9,5 @@ urlpatterns = [
     path('friends', views.FriendsView.as_view(), name='friends'),
     path('friends/<int:pk>', views.FriendsView.as_view(), name='friends_modification'),
     path('profile', views.ProfileView.as_view(), name='profile'),
+    path('events', views.EventView.as_view(), name='events')
 ]
