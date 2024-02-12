@@ -25,7 +25,7 @@ class LoginTemplate(LoginView):
 class RegisterView(FormView):
     template_name = 'login/registration.html'
     form_class = RegisterForm
-    success_url = reverse_lazy("home:home-page")
+    success_url = reverse_lazy("login:login_template")
 
     def form_valid(self, form):
         form.save()

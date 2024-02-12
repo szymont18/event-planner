@@ -7,7 +7,7 @@
     <h1>Your Friends</h1>
     {% for friend in friends %}
         <div class="friend_wrapper">
-            <a href="">
+            <a href="{% url 'home:user_detail' friend.pk %}">
                 <li>
                     <img src="{{ friend.profile_picture.url}}">
                     <p>{{ friend.username }}</p>

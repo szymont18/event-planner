@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+
+{% block title %}{{ event.title }}{% endblock %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static "home/event_details.css" %}">
+{% endblock %}
+
+{% block content %}
+    {% include 'home/widgets/navbar_widget.html' %}
+
+    <div id="content">
+        <div id="detail">
+            <div id="text-info">
+                <h2>{{ event.title }}</h2>
+                <p>{{ event.organizer }}</p>
+                <p>{{ event.place }}</p>
+                <p>{{ event.date }}</p>
+            </div>
+
+            <img src="{{ event.event_picture.url }}">
+        </div>
+
+        <div id="invitation">
+            <div id="uninvited">
+                {% for friend in uninvited %}
+                    <div class="friend">
+                        <img src="{{ friend.profile_picture.url}}">
+                        <p>{{ friend.username }}</p>
+                        <form method="POST" action="{% url 'home:invite_friend' event.slug friend.pk %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="type" value="invite">
+                            <button type="submit" class="btn btn-success" style="width: 150%;">Invite</button>
+                        </form>
+                    </div>
+                {% endfor %}
+
+            </div>
+
+            <div id="invited">
+                {% for friend in invited %}
+                    <div class="friend">
+                        <img src="{{ friend.profile_picture.url}}">
+                        <p>{{ friend.username }}</p>
+                        <form method="POST" action="{% url 'home:invite_friend' event.slug friend.pk %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="type" value="uninvite">
+                            <button type="submit" class="btn btn-danger" style="width: 150%;">Uninvite</button>
+                        </form>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

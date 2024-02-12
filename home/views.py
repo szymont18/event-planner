@@ -10,6 +10,7 @@ import random
 from django.views.generic.edit import FormView
 from .forms import *
 from django.contrib.auth.decorators import login_required
+from home.models import *
 
 
 # Create your views here.
@@ -21,6 +22,7 @@ def authenticated(request):
 
 
 def proposed_friends(friends):
+    # TODO: Make it better !
     distant_friend = []
     rnd_shuffle = [i for i in range(len(friends))]
     random.shuffle(rnd_shuffle)
@@ -136,5 +138,88 @@ class EventView(LoginRequiredMixin, FormView):
         event.save()
 
         return super().form_valid(form)
+
+
+class EventDetailView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        user = authenticated(request)
+        event = Event.objects.get(slug=kwargs['event_slug'])
+        invitation_friends = WebsiteUser.objects.filter(receivied_invitation__event=event)
+
+        other_friends = user.friends.difference(invitation_friends)
+
+        context = {'event': event,
+                   'invited': invitation_friends,
+                   'uninvited': other_friends}
+
+        return render(request, 'home/event_detail.html', context=context)
+
+    def post(self, request, *args, **kwargs):
+        user = authenticated(request)
+        friend = WebsiteUser.objects.get(pk=kwargs['pk'])
+        event = Event.objects.get(slug=kwargs['event_slug'])
+
+        invitation_type = request.POST.get('type')
+
+        if invitation_type == 'invite':
+            self.invite(event, user, friend)
+        else:
+            self.uninvite(event, user, friend)
+
+        return HttpResponseRedirect(reverse_lazy('home:event_detail', kwargs={'event_slug': kwargs['event_slug']}))
+
+    def invite(self, event, user, friend):
+        # The invitation exists -> there is no sense to create the same invitation, because there has been already send
+        # one in the past
+        if not Invitation.objects.filter(event=event, sender=user, receiver=friend).exists():
+            invitation = Invitation.objects.create(event=event, sender=user, receiver=friend)
+            invitation.save()
+
+    def uninvite(self, event, user, friend):
+        invitation = Invitation.objects.get(event=event, sender=user, receiver=friend)
+        invitation.delete()
+
+
+class UserDetail(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        user = authenticated(request)
+
+        profile = WebsiteUser.objects.get(pk=kwargs['pk'])
+
+        is_friend = profile in user.friends.all()
+
+        events = Event.objects.filter(organizer=profile)
+
+        context = {'profile': profile,
+                   'is_friend': is_friend,
+                   'events': events}
+
+        return render(request, 'home/user_detail.html', context=context)
+
+    def post(self, request, *args, **kwargs):
+        user = authenticated(request)
+
+        friend = WebsiteUser.objects.get(pk=kwargs['pk'])
+        post_type = request.POST.get('type')
+
+        if post_type == 'follow':
+            self.follow(user, friend)
+
+        elif post_type == 'unfollow':
+            self.unfollow(user, friend)
+
+        return HttpResponseRedirect(reverse_lazy('home:user_detail', kwargs={'pk': kwargs['pk']}))
+
+
+    def follow(self, user: WebsiteUser, friend: WebsiteUser):
+        user.friends.add(friend)
+
+    def unfollow(self, user: WebsiteUser, friend: WebsiteUser):
+        user.friends.remove(friend)
+
+
+
+
+
 
 

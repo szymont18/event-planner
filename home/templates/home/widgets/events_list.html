@@ -5,11 +5,11 @@
 {% bootstrap_javascript %}
 
 
-<h1>Your Events</h1>
+<h1>Events</h1>
 
 {% for event in events %}
     <div class="event-wrapper">
-        <a href="">
+        <a href="{% url 'home:event_detail' event.slug %}">
             <div class="text">
                 <h2>{{ event.title }}</h2>
                 <p>{{ event.place }}</p>

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+
+{% block title %}Event Planner {{ profile.username }}{% endblock %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static "home/events.css" %}">
+    <link rel="stylesheet" href="{% static "home/event_details.css" %}">
+    <link rel="stylesheet" href="{% static "home/user_details.css" %}">
+{% endblock %}
+
+{% block content %}
+    {% include 'home/widgets/navbar_widget.html' %}
+     <div id="content">
+        <div id="detail" style="order: 1; margin-right: 10%">
+            <div id="text-info" style="padding: 5%">
+                <h2>{{ profile.username }}</h2>
+
+                <form method="POST">
+                    {% csrf_token %}
+                    {% if is_friend %}
+                        <input type="hidden" name="type" value="unfollow">
+                        <button type="submit" class="btn btn-danger">UnFollow</button>
+                    {% else %}
+                        <input type="hidden" name="type" value="follow">
+                        <button type="submit" class="btn btn-success">Follow</button>
+                    {% endif %}
+                </form>
+            </div>
+            <img src="{{ profile.profile_picture.url }}">
+        </div>
+
+        {# TODO: Make Events pretier #}
+        <div id="events" style="order: 2;">
+            {% include "home/widgets/events_list.html" %}
+        </div>
+
+
+     </div>
+
+{% endblock %}
