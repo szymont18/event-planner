@@ -1,0 +1,28 @@
+{% load static %}
+
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+
+<h1>Invitations</h1>
+    <ul class="friend_list">
+        {% for invitation in invitations %}
+            <div class="friend_wrapper" style="order: 1">
+                <div class="text">
+                    <p>From: {{ invitation.sender }}</p>
+                    <p>{{ invitation.event.title }}</p>
+                    <p>Place: {{ invitation.event.place }}</p>
+                    <p>Date: {{ invitation.event.date }}</p>
+                </div>
+                <form method="POST" action="{% url 'home:invitation_response' invitation.pk %}">
+                    {% csrf_token %}
+                    <button style="margin: 5%" type="submit" class="btn btn-success" name="response" value="accept">Accept</button>
+                    <button style="margin: 5%" type="submit" class="btn btn-danger" name="response" value="reject">Reject</button>
+                </form>
+            </div>
+
+            </ul>
+{% endfor %}
+
+

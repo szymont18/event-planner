@@ -12,6 +12,7 @@
         <a href="{% url 'home:event_detail' event.slug %}">
             <div class="text">
                 <h2>{{ event.title }}</h2>
+                <p>{{ event.organizer }}</p>
                 <p>{{ event.place }}</p>
                 <p>{{ event.date }}</p>
             </div>

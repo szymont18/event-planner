@@ -5,6 +5,11 @@ from django.utils.text import slugify
 
 # Create your models here.
 
+class InvitationState(models.TextChoices):
+    WAITING = 'WT'
+    ACCEPTED = 'ACK'
+    REJECTED = 'NACK'
+
 
 class Event(models.Model):
     organizer = models.ForeignKey(WebsiteUser, null=True, on_delete=models.CASCADE, related_name="events")
@@ -29,4 +34,4 @@ class Invitation(models.Model):
     sender = models.ForeignKey(WebsiteUser, on_delete=models.CASCADE, related_name="sended_invitation")
     receiver = models.ForeignKey(WebsiteUser, on_delete=models.CASCADE, related_name="receivied_invitation")
 
-    accepted = models.BooleanField(default=False)
+    accepted = models.CharField(max_length=5, choices=InvitationState.choices, default=InvitationState.WAITING)

@@ -39,10 +39,47 @@ def proposed_friends(friends):
     return distant_friend
 
 
-@login_required
-def main_page(request):
-    return render(request, 'home/main.html')
+class HomePageView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        user = authenticated(request)
+        friends = user.friends.all()
+        invitations = Invitation.objects.filter(receiver=user, accepted=InvitationState.WAITING)
 
+        events = user.events.all()
+
+        accepted_invitations = Invitation.objects.filter(receiver=user, accepted=InvitationState.ACCEPTED,
+                                                         event__date__gt=timezone.now())
+
+        invitation_events_id = [entry['event'] for entry in accepted_invitations.values('event')]
+        invitation_events = Event.objects.filter(pk__in=invitation_events_id)
+
+        events = events.union(invitation_events)
+        events = events.order_by('date')
+
+        context = {'friends': friends,
+                   'events': events,
+                   'invitations': invitations}
+
+        return render(request, 'home/main.html', context=context)
+
+    def post(self, request, *args, **kwargs):
+        response = request.POST.get('response')
+        invitation = Invitation.objects.get(pk=kwargs['pk'])
+
+        if response == 'accept':
+            self.accept(invitation)
+        elif response == 'reject':
+            self.reject(invitation)
+
+        return HttpResponseRedirect(reverse_lazy('home:home-page'))
+
+    def accept(self, invitation):
+        invitation.accepted = InvitationState.ACCEPTED
+        invitation.save()
+
+    def reject(self, invitation):
+        invitation.accepted = InvitationState.REJECTED
+        invitation.save()
 
 def logout_user(request):
     logout(request)
@@ -116,6 +153,7 @@ class ProfileView(LoginRequiredMixin, FormView):
         return context
 
 
+# TODO: Only organizer can invite friends !!!
 class EventView(LoginRequiredMixin, FormView):
     template_name = 'home/events.html'
     form_class = EventForm
@@ -210,16 +248,8 @@ class UserDetail(LoginRequiredMixin, View):
 
         return HttpResponseRedirect(reverse_lazy('home:user_detail', kwargs={'pk': kwargs['pk']}))
 
-
     def follow(self, user: WebsiteUser, friend: WebsiteUser):
         user.friends.add(friend)
 
     def unfollow(self, user: WebsiteUser, friend: WebsiteUser):
         user.friends.remove(friend)
-
-
-
-
-
-
-

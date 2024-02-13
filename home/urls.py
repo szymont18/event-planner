@@ -4,7 +4,8 @@ from . import views
 app_name = 'home'
 
 urlpatterns = [
-    path("home-page", views.main_page, name='home-page'),
+    path("home-page", views.HomePageView.as_view(), name='home-page'),
+    path('invitation/<int:pk>', views.HomePageView.as_view(), name='invitation_response'),
     path('lgout', views.logout_user, name='logout'),
     path('friends', views.FriendsView.as_view(), name='friends'),
     path('friends/<int:pk>', views.FriendsView.as_view(), name='friends_modification'),
