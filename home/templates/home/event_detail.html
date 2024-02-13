@@ -26,6 +26,7 @@
             <img src="{{ event.event_picture.url }}">
         </div>
 
+        {% if is_owner %}
         <div id="invitation">
             <div id="uninvited">
                 {% for friend in uninvited %}
@@ -56,6 +57,7 @@
                 {% endfor %}
             </div>
         </div>
+        {% endif %}
     </div>
 
 {% endblock %}

@@ -57,7 +57,7 @@ class RegisterForm(UserCreationForm):
                                                       'type': 'text',
                                                       'placeholder': 'Enter Your last name'})
 
-    def is_valid(self):  # TODO: Check if it is necessary
+    def is_valid(self):
         return super().is_valid()
 
 

@@ -81,6 +81,7 @@ class HomePageView(LoginRequiredMixin, View):
         invitation.accepted = InvitationState.REJECTED
         invitation.save()
 
+
 def logout_user(request):
     logout(request)
     return redirect('login:login_template')
@@ -153,7 +154,6 @@ class ProfileView(LoginRequiredMixin, FormView):
         return context
 
 
-# TODO: Only organizer can invite friends !!!
 class EventView(LoginRequiredMixin, FormView):
     template_name = 'home/events.html'
     form_class = EventForm
@@ -188,7 +188,8 @@ class EventDetailView(LoginRequiredMixin, View):
 
         context = {'event': event,
                    'invited': invitation_friends,
-                   'uninvited': other_friends}
+                   'uninvited': other_friends,
+                   'is_owner': user == event.organizer}
 
         return render(request, 'home/event_detail.html', context=context)
 

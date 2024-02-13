@@ -32,8 +32,11 @@
     flex-direction: column;
 }
 
+
+
 .event-wrapper{
     margin-top: 0;
+    width: 100%;
 }
 
 .event-wrapper a{
